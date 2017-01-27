@@ -37,6 +37,8 @@ def dnsProcess(lSock, data, dataString, retAddr, args):
 	lSock.sendto(dataR, retAddr)
 
 def getDelay(delay, jitter):
+	if jitter > delay:
+		jitter = delay
 	randJit = random.randrange(jitter) if jitter > 0 else 0
 	return float(delay + randJit)  / 1000
 
@@ -51,7 +53,7 @@ def parseArgs():
     parser.add_argument("-q", "--upstream-server-port", default="53", type=int, help="upstream nameserver port. Defaults to 53.")
     parser.add_argument("-d", "--delay", default="1000", type=int, help="delay of requests in milliseconds. Defaults to 1000ms.")
     parser.add_argument("-l", "--loss", default="0", type=int, help="percent of requests which will be 'lost'. Defaults to 0")
-    parser.add_argument("-j", "--jitter", default="0", type=int, help="quantity of random variation +/- base in ms. Defaults to 0 (no jitter).")
+    parser.add_argument("-j", "--jitter", default="0", type=int, help="quantity of random variation +/- base in ms. Defaults to 0 (no jitter). Should not be larger than delay.")
     args = parser.parse_args()
     return args
 

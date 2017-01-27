@@ -63,7 +63,7 @@ optional arguments:
                         0
   -j JITTER, --jitter JITTER
                         quantity of random variation +/- base in ms. Defaults
-                        to 0 (no jitter).
+                        to 0 (no jitter). Should not be larger than delay.
 ```
 ### Examples
 
