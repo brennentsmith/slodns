@@ -1,0 +1,51 @@
+#!/usr/bin/env python
+import argparse
+import socket
+import time
+from multiprocessing import Process
+import random
+import string
+
+def main():
+	args = parseArgs()
+	startListener(args)
+
+def startListener(args):
+	lSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+	lSock.bind((args.interface, args.port))
+
+	while True:
+		data, retAddr = lSock.recvfrom(1024) 
+		print "Request:", filter(str.isalnum, data)
+		p = Process(target=dnsProcess, args=(lSock, data, retAddr, args))
+		p.start()
+
+def dnsProcess(lSock, data, retAddr, args):
+	sSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	ephermalPort = random.randrange(49152, 65535)
+	sSock.bind(('0.0.0.0', ephermalPort))
+	sSock.sendto(data, (args.upstream_server, args.upstream_server_port))
+	dataR, addrR = sSock.recvfrom(ephermalPort)
+	sSock.close()
+	delay = getDelay(args.delay, args.jitter)
+	time.sleep(delay)
+	print "Response: ", filter(str.isalnum, data), "delay", int(delay * 1000), "ms"
+	lSock.sendto(dataR, retAddr)
+
+def getDelay(delay, jitter):
+	randJit = random.randrange(jitter) if jitter > 0 else 0
+	return float(delay + randJit)  / 1000
+
+def parseArgs():
+    parser = argparse.ArgumentParser("Simulates non-optimal DNS conditons. ")
+    parser.add_argument("-i", "--interface", default="127.0.0.1", help="Interface for server to bind to. Defaults to localhost.")
+    parser.add_argument("-p", "--port", default="5053", type=int, help="Port for server to listen on. Defaults to 5353.")
+    parser.add_argument("-u", "--upstream-server", default="8.8.8.8", help="Upstream nameserver. Defaults to 8.8.8.8.")
+    parser.add_argument("-q", "--upstream-server-port", default="53", type=int, help="Upstream nameserver port. Defaults to 53.")
+    parser.add_argument("-d", "--delay", default="1000", type=int, help="delay of requests in milliseconds. Defaults to 1000ms.")
+    parser.add_argument("-j", "--jitter", default="0", type=int, help="Quantity of random variation +/- base in ms. Defaults to 0 (no jitter).")
+    args = parser.parse_args()
+    return args
+
+if __name__ == "__main__":
+    main()
