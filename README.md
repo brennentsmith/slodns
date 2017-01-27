@@ -52,7 +52,7 @@ optional arguments:
   -i INTERFACE, --interface INTERFACE
                         interface for server to bind to. Defaults to
                         localhost.
-  -p PORT, --port PORT  port for server to listen on. Defaults to 5353.
+  -p PORT, --port PORT  port for server to listen on. Defaults to 5053.
   -u UPSTREAM_SERVER, --upstream-server UPSTREAM_SERVER
                         upstream nameserver. Defaults to 8.8.8.8.
   -q UPSTREAM_SERVER_PORT, --upstream-server-port UPSTREAM_SERVER_PORT
