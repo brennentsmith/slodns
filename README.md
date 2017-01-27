@@ -24,6 +24,7 @@ Root is *not* required if you run on the default port. If you want to run on por
 ### Supported Platforms
 
 slodns has been tested on the following platforms:
+
 1. MacOS 10.12 (Sierra)
 2. Debian 7/8
 3. Ubuntu 14.04/16.04
@@ -41,7 +42,7 @@ chmod +x slodns
 
 ## Usage
 
-```sh
+```
 usage: A forwarding DNS server to simulate slow, jittery, or problematic DNS implementations.
        [-h] [-i INTERFACE] [-p PORT] [-u UPSTREAM_SERVER]
        [-q UPSTREAM_SERVER_PORT] [-d DELAY] [-l LOSS] [-j JITTER]
