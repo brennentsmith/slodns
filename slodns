@@ -28,10 +28,8 @@ def dnsProcess(lSock, data, dataString, retAddr, args):
 		print "Response: ", dataString, "dropped"
 		return
 	sSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-	ephermalPort = random.randrange(49152, 65535)
-	sSock.bind(('0.0.0.0', ephermalPort))
 	sSock.sendto(data, (args.upstream_server, args.upstream_server_port))
-	dataR, addrR = sSock.recvfrom(ephermalPort)
+	dataR, addrR = sSock.recvfrom(1024)
 	sSock.close()
 	delay = getDelay(args.delay, args.jitter)
 	time.sleep(delay)
