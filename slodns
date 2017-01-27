@@ -15,7 +15,7 @@ def startListener(args):
 	lSock.bind((args.interface, args.port))
 
 	while True:
-		data, retAddr = lSock.recvfrom(1024) 
+		data, retAddr = lSock.recvfrom(4096) 
 		dataString = filter(str.isalnum, data)
 		print "Request:", dataString
 		p = Process(target=dnsProcess, args=(lSock, data, dataString, retAddr, args))
@@ -29,11 +29,11 @@ def dnsProcess(lSock, data, dataString, retAddr, args):
 		return
 	sSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	sSock.sendto(data, (args.upstream_server, args.upstream_server_port))
-	dataR, addrR = sSock.recvfrom(1024)
+	dataR, addrR = sSock.recvfrom(4096)
 	sSock.close()
 	delay = getDelay(args.delay, args.jitter)
 	time.sleep(delay)
-	print "Response: ", dataString, "delay", int(delay * 1000), "ms"
+	print "Response:", dataString, "delay", int(delay * 1000), "ms"
 	lSock.sendto(dataR, retAddr)
 
 def getDelay(delay, jitter):
