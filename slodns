@@ -44,7 +44,7 @@ def isLost(percent):
 	return percent >= random.randrange(100)
 
 def parseArgs():
-    parser = argparse.ArgumentParser("Simulates non-optimal DNS conditons. ")
+    parser = argparse.ArgumentParser("A forwarding DNS server to simulate slow, jittery, or problematic DNS implementations.")
     parser.add_argument("-i", "--interface", default="127.0.0.1", help="interface for server to bind to. Defaults to localhost.")
     parser.add_argument("-p", "--port", default="5053", type=int, help="port for server to listen on. Defaults to 5353.")
     parser.add_argument("-u", "--upstream-server", default="8.8.8.8", help="upstream nameserver. Defaults to 8.8.8.8.")
