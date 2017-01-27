@@ -17,7 +17,7 @@ $ dig speedtest.net @127.0.0.1 -p 5053 | grep "Query time"
 
 ### Requrirements
 
-Python 2.7 is required to run sloDNS. No external python resources are required. 
+Python 2.7 is required to run slodns. No external python resources are required. 
 
 Root is *not* required if you run on the default port. If you want to run on port 53, then you will need to run as root or use iptables. 
 
