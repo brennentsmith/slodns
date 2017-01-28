@@ -13,7 +13,7 @@ def main():
 def startListener(args):
 	lSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
 	lSock.bind((args.interface, args.port))
-
+	print "Slodns now listening on", args.interface, "port", args.port
 	while True:
 		data, retAddr = lSock.recvfrom(4096) 
 		dataString = filter(str.isalnum, data)
