@@ -43,7 +43,7 @@ def getDelay(delay, jitter):
 	return float(delay + randJit)  / 1000
 
 def isLost(percent):
-	return percent > random.randint(99)
+	return percent > random.randint(1, 99)
 
 def parseArgs():
     parser = argparse.ArgumentParser("A forwarding DNS server to simulate slow, jittery, or problematic DNS implementations.")
