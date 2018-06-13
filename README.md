@@ -80,8 +80,13 @@ Simulate a lossy network with 500ms delay, 100ms jitter (400 - 600ms), and 25% r
 $ slodns -u 192.168.2.1 -d 500 -j 100 -l 25
 ```
 ## Running on Privileged Ports
-As binding to ports <= 1024 require root execution, you have two choices for slodns. The first is to use `sudo` and run  slodns as root. The other option is to enable port forwarding within the kernel and use iptables - an example rule is below:
+As binding to ports <= 1024 require root execution, you have two choices for slodns. The first is to use `sudo` and run  slodns as root. 
 ```
-iptables -t nat -A PREROUTING -s 127.0.0.1 -p tcp --dport 53 -j REDIRECT --to 5053`
-iptables -t nat -A OUTPUT -s 127.0.0.1 -p tcp --dport 53 -j REDIRECT --to 5053`
+$ sudo slodns -i 0.0.0.0 -p 53
+```
+
+The other option is to enable port forwarding within the kernel and use iptables - an example rule is below:
+```
+iptables -t nat -A PREROUTING -s 127.0.0.1 -p udp --dport 53 -j REDIRECT --to 5053`
+iptables -t nat -A OUTPUT -s 127.0.0.1 -p udp --dport 53 -j REDIRECT --to 5053`
 ```
